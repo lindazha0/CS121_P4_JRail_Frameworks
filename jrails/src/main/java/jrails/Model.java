@@ -12,9 +12,16 @@ public class Model {
     static String seperator = "  ,  ";
 
     // instance fields
-    public int id = 0;
+    private int id = 0;
+    private static Object newInstance;
+    private static Object invoke;
+    public void setID(int id){
+        this.id = id;
+    }
 
     /**
+     * Helper:
+     * return a field String from a specific object
      * @return String of this.field values, beginning with id
      * @throws IllegalAccessException
      * @throws IllegalArgumentException
@@ -28,6 +35,13 @@ public class Model {
         return fieldVals;
     }
 
+    /**
+     * Helper: 
+     * save dbMap to the db disk file
+     * @throws IllegalArgumentException
+     * @throws IllegalAccessException
+     * @throws IOException
+     */
     private static void saveDBMap() throws IllegalArgumentException, IllegalAccessException, IOException{
         // replace the line in file
         reset();
@@ -40,6 +54,54 @@ public class Model {
         }
         bw.close();
     }
+    
+    /**
+     * load dbfile to dbMap
+     * @param cls 
+     * @throws SecurityException
+     * @throws NoSuchMethodException
+     * @throws InvocationTargetException
+     * @throws IllegalArgumentException
+     * @throws IllegalAccessException
+     * @throws InstantiationException
+     */
+    private static void loadDBMap(Class cls) throws InstantiationException, IllegalAccessException, IllegalArgumentException, InvocationTargetException, NoSuchMethodException, SecurityException{
+        // System.out.println("Hereby Reading DB:");
+        try{
+            // read line by line
+            BufferedReader br = new BufferedReader(new FileReader(dbName));
+            String line= br.readLine();
+            
+            while(line  != null){
+                // System.out.println(line);
+                String[] fields = line.split(seperator);
+
+                // parsing fields & construct dbMap objects
+                int i=0;
+                int id = Integer.parseInt(fields[++i]);
+                Object instance = cls.getDeclaredConstructor().newInstance();
+
+                // set id
+                cls.getMethod("setID").invoke(instance, id);
+
+                // set other fields
+                for(Field f:cls.getFields()){
+                    f.set(instance, fields[++i]);
+                }
+
+                // load to dbMap
+                dbMap.put(id, instance);
+
+                // next line
+                line= br.readLine();
+            }
+            br.close();
+        }
+        catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+    
     /**
      * save current instance to the dist file
      */
