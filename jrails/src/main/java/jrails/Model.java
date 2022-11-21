@@ -13,8 +13,6 @@ public class Model {
 
     // instance fields
     private int id = 0;
-    private static Object newInstance;
-    private static Object invoke;
     public void setID(int id){
         this.id = id;
     }
@@ -54,17 +52,21 @@ public class Model {
         }
         bw.close();
     }
-    
+
 
     /**
      * if dbMap empty, load db file to it
      * @throws IllegalArgumentException
      * @throws IllegalAccessException
      * @throws IOException
+     * @throws SecurityException
+     * @throws NoSuchMethodException
+     * @throws InvocationTargetException
+     * @throws InstantiationException
      */
-    private static void maintainDBMap() throws IllegalArgumentException, IllegalAccessException, IOException{
+    private static void maintainDBMap(Class cls) throws IllegalArgumentException, IllegalAccessException, IOException, InstantiationException, InvocationTargetException, NoSuchMethodException, SecurityException{
         if(dbMap.keySet().isEmpty()){
-            saveDBMap();
+            loadDBMap(cls);
         }
     }
 
@@ -143,7 +145,7 @@ public class Model {
             }
             else{
                 // if db file is not empty, maintain dbMap if needed
-                maintainDBMap();
+                maintainDBMap(this.getClass());
             }
 
             // set id if not saved before
@@ -172,15 +174,10 @@ public class Model {
             // close the buffer writer
             bw.close();
 
-        } catch (IOException ex) {
+        } catch (Exception ex) {
             ex.printStackTrace();
-        } catch(IllegalAccessException e){
-            e.printStackTrace();
-            
         }
         // throw new UnsupportedOperationException();
-        // if exist, open & write to it
-        // otherwise create and write
     }
 
     public int id() {
@@ -190,8 +187,8 @@ public class Model {
 
     public static <T> T find(Class<T> c, int id) {
         try {
-            maintainDBMap();
-        } catch (IllegalArgumentException | IllegalAccessException | IOException e1) {
+            maintainDBMap(c);
+        } catch (IllegalArgumentException | IllegalAccessException | IOException | InstantiationException | InvocationTargetException | NoSuchMethodException | SecurityException e1) {
             e1.printStackTrace();
         }
 
@@ -229,8 +226,8 @@ public class Model {
      */
     public static <T> List<T> all(Class<T> c) {
         try {
-            maintainDBMap();
-        } catch (IllegalArgumentException | IllegalAccessException | IOException e1) {
+            maintainDBMap(c);
+        } catch (IllegalArgumentException | IllegalAccessException | IOException | InstantiationException | InvocationTargetException | NoSuchMethodException | SecurityException e1) {
             e1.printStackTrace();
         }
 
@@ -248,11 +245,10 @@ public class Model {
      */
     public void destroy() {
         try {
-            maintainDBMap();
-        } catch (IllegalArgumentException | IllegalAccessException | IOException e1) {
+            maintainDBMap(this.getClass());
+        } catch (IllegalArgumentException | IllegalAccessException | IOException | InstantiationException | InvocationTargetException | NoSuchMethodException | SecurityException e1) {
             e1.printStackTrace();
         }
-
 
         if(!dbMap.containsKey(this.id)){
             throw new UnsupportedOperationException();
