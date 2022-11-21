@@ -55,7 +55,21 @@ public class Model {
         bw.close();
     }
     
+
     /**
+     * if dbMap empty, load db file to it
+     * @throws IllegalArgumentException
+     * @throws IllegalAccessException
+     * @throws IOException
+     */
+    private static void maintainDBMap() throws IllegalArgumentException, IllegalAccessException, IOException{
+        if(dbMap.keySet().isEmpty()){
+            saveDBMap();
+        }
+    }
+
+
+    /** 
      * load dbfile to dbMap
      * @param cls 
      * @throws SecurityException
@@ -127,6 +141,10 @@ public class Model {
                 bw.write(fieldNames);
                 bw.newLine();
             }
+            else{
+                // if db file is not empty, maintain dbMap if needed
+                maintainDBMap();
+            }
 
             // set id if not saved before
             if (this.id == 0) {
@@ -171,6 +189,13 @@ public class Model {
     }
 
     public static <T> T find(Class<T> c, int id) {
+        try {
+            maintainDBMap();
+        } catch (IllegalArgumentException | IllegalAccessException | IOException e1) {
+            e1.printStackTrace();
+        }
+
+
         if (!dbMap.containsKey(id)) {
             throw new UnsupportedOperationException();
         }
@@ -203,6 +228,12 @@ public class Model {
      * @return List<T>
      */
     public static <T> List<T> all(Class<T> c) {
+        try {
+            maintainDBMap();
+        } catch (IllegalArgumentException | IllegalAccessException | IOException e1) {
+            e1.printStackTrace();
+        }
+
         // Returns a List<element type>
         List<T> t_list = new ArrayList<>();
         for (Integer i : dbMap.keySet()) {
@@ -216,6 +247,13 @@ public class Model {
      * remove current model from db
      */
     public void destroy() {
+        try {
+            maintainDBMap();
+        } catch (IllegalArgumentException | IllegalAccessException | IOException e1) {
+            e1.printStackTrace();
+        }
+
+
         if(!dbMap.containsKey(this.id)){
             throw new UnsupportedOperationException();
         }
@@ -223,6 +261,7 @@ public class Model {
         dbMap.remove(this.id);
 
         try {
+            // write to disk file
             saveDBMap();
         } catch (IllegalArgumentException | IllegalAccessException | IOException e) {
             e.printStackTrace();
@@ -232,6 +271,7 @@ public class Model {
     public static void reset() {
         // empty db
         try {
+            dbMap.clear();
             new PrintWriter(dbName).close();
         } catch (FileNotFoundException e) {
             e.printStackTrace();

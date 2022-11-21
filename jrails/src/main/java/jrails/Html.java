@@ -1,6 +1,7 @@
 package jrails;
 
 public class Html {
+    private String str;
     public String toString() {
         throw new UnsupportedOperationException();
     }
