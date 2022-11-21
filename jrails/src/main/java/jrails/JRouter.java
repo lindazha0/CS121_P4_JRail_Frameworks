@@ -32,6 +32,7 @@ public class JRouter {
             case "POST":
                 break;
             default:
+                throw new IllegalCallerException();
                 // error!
         }
     }
@@ -83,8 +84,9 @@ public class JRouter {
             return result;
         } catch (Exception e) {
             e.printStackTrace();
-            throw e;
         }
+
+        return null;
         // throw new UnsupportedOperationException();
     }
 }
