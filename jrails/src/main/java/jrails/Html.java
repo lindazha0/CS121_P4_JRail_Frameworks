@@ -3,15 +3,17 @@ package jrails;
 public class Html {
     // store the txt of the Html obj
     private String text;
-    public void setText(String text){
+
+    public void setText(String text) {
         this.text = text;
     }
 
     /**
      * Constructor taking the text context
+     * 
      * @param text
      */
-    public Html(String text){
+    public Html(String text) {
         this.text = text;
     }
 
@@ -21,11 +23,13 @@ public class Html {
     }
 
     public Html seq(Html h) {
-        throw new UnsupportedOperationException();
+        return new Html(text +"."+ h.toString());
+        // throw new UnsupportedOperationException();
     }
 
     public Html br() {
-        throw new UnsupportedOperationException();
+        return View.br();
+        // throw new UnsupportedOperationException();
     }
 
     public static Html t(Object o) {
@@ -35,58 +39,72 @@ public class Html {
     }
 
     public static Html p(Html child) {
-        throw new UnsupportedOperationException();
+        return View.p(child);
+        // throw new UnsupportedOperationException();
     }
 
     public Html div(Html child) {
-        throw new UnsupportedOperationException();
+        return View.div(child);
+        // throw new UnsupportedOperationException();
     }
 
     public Html strong(Html child) {
-        throw new UnsupportedOperationException();
+        return View.strong(child);
+        // throw new UnsupportedOperationException();
     }
 
     public Html h1(Html child) {
-        throw new UnsupportedOperationException();
+        return View.h1(child);
+        // throw new UnsupportedOperationException();
     }
 
     public Html tr(Html child) {
-        throw new UnsupportedOperationException();
+        return View.tr(child);
+        // throw new UnsupportedOperationException();
     }
 
     public Html th(Html child) {
-        throw new UnsupportedOperationException();
+        return View.th(child);
+        // throw new UnsupportedOperationException();
     }
 
     public Html td(Html child) {
-        throw new UnsupportedOperationException();
+        return View.td(child);
+        // throw new UnsupportedOperationException();
     }
 
     public Html table(Html child) {
-        throw new UnsupportedOperationException();
+        return View.table(child);
+        // throw new UnsupportedOperationException();
     }
 
     public Html thead(Html child) {
-        throw new UnsupportedOperationException();
+        return View.thead(child);
+        // throw new UnsupportedOperationException();
     }
 
     public Html tbody(Html child) {
-        throw new UnsupportedOperationException();
+        return View.tbody(child);
+        // throw new UnsupportedOperationException();
     }
 
     public Html textarea(String name, Html child) {
-        throw new UnsupportedOperationException();
+        return View.textarea(name, child);
+        // throw new UnsupportedOperationException();
     }
 
     public Html link_to(String text, String url) {
-        throw new UnsupportedOperationException();
+        return View.link_to(text, url);
+        // throw new UnsupportedOperationException();
     }
 
     public Html form(String action, Html child) {
-        throw new UnsupportedOperationException();
+        return View.form(action, child);
+        // throw new UnsupportedOperationException();
     }
 
     public Html submit(String value) {
-        throw new UnsupportedOperationException();
+        return View.submit(value);
+        // throw new UnsupportedOperationException();
     }
 }

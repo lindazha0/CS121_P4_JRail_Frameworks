@@ -7,7 +7,7 @@ public class View {
     }
 
     public static Html br() {
-        return new Html("<br />");
+        return new Html("<br/>");
         // throw new UnsupportedOperationException();
     }
 
