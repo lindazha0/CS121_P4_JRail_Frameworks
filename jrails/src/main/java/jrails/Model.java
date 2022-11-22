@@ -23,11 +23,11 @@ public class Model {
         BufferedWriter bw = new BufferedWriter(new FileWriter(dbName));
 
         // first row: field names
-        String fieldNames = "id";
+        StringBuilder fieldNames = new StringBuilder("id");
         for (Field f : Class.forName(className).getFields()) {
-            fieldNames = fieldNames + seperator + f.getName();
+            fieldNames.append(seperator).append(f.getName());
         }
-        bw.write(fieldNames);
+        bw.write(fieldNames.toString());
         bw.newLine();
         bw.close();
     }
@@ -36,10 +36,8 @@ public class Model {
      * Helper:
      * return a field String from a specific object
      * @return String of this.field values, beginning with id
-     * @throws IllegalAccessException
-     * @throws IllegalArgumentException
      */
-    private static String getFieldString(int id, Object o) throws IllegalArgumentException, IllegalAccessException {
+    private static String getFieldString(int id, Object o) throws  IllegalAccessException {
         StringBuilder fieldVals = new StringBuilder(String.valueOf(id));
         for (Field f : o.getClass().getFields()) {
             fieldVals.append(seperator).append(f.get(o));
@@ -52,8 +50,6 @@ public class Model {
      * Helper: 
      * save dbMap to the db disk file
      * @throws IllegalArgumentException
-     * @throws IllegalAccessException
-     * @throws IOException
      */
     private static void saveDBMap() throws IllegalArgumentException, IllegalAccessException, IOException, ClassNotFoundException {
         // rewrite the updated dbMap to db
@@ -71,16 +67,10 @@ public class Model {
     /**
      * if dbMap empty, load db file to it
      * @throws IllegalArgumentException
-     * @throws IllegalAccessException
-     * @throws IOException
-     * @throws SecurityException
-     * @throws NoSuchMethodException
      * @throws InvocationTargetException
-     * @throws InstantiationException
      */
     private static void maintainDBMap(Class cls) throws IllegalArgumentException, IllegalAccessException, IOException, InstantiationException, InvocationTargetException, NoSuchMethodException, SecurityException, NoSuchFieldException {
         if(dbMap.keySet().isEmpty()){
-            System.out.println("load db to dbMap");
             loadDBMap(cls);
         }
     }
@@ -114,17 +104,16 @@ public class Model {
      * @throws InstantiationException
      */
     private static void loadDBMap(Class cls) throws InstantiationException, IllegalAccessException, IllegalArgumentException, InvocationTargetException, NoSuchMethodException, SecurityException, NoSuchFieldException {
-        // System.out.println("Hereby Reading DB:");
+        System.out.println("load db to dbMap");
         try{
             // read line by line
             BufferedReader br = new BufferedReader(new FileReader(dbName));
             String line= br.readLine();
-            
-            while(line  != null){
-                // begins from 2nd line
-                line= br.readLine();
 
+            // begins from 2nd line
+            line= br.readLine();
 
+            while(line != null){
                 // System.out.println(line);
                 String[] fields = line.split(seperator);
 
@@ -144,10 +133,12 @@ public class Model {
 
                 // load to dbMap
                 dbMap.put(id, instance);
+                line= br.readLine();
 
 
             }
             br.close();
+            System.out.println(dbMap.toString());
         }
         catch (IOException e) {
             e.printStackTrace();
