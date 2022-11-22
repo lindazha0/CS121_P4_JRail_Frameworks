@@ -4,73 +4,74 @@ import java.lang.reflect.*;
 import java.util.*;
 
 public class JRouter {
+    static private String[] validVerbs = { "GET", "HEAD", "POST", "PUT", "DELETE", "CONNECT", "OPTIONS", "TRACE",
+            "PATCH" };
 
     /**
      * mapping router path to controller method name
+     * key: verb
+     * value: map<path, method_name>
      */
     static Map<String, Map<String, String>> routes = new HashMap<>();
     static String className;
 
     /**
-     * @param verb: "GET/POST"
-     * @param path: "/path-to-page"
-     * @param clazz: which controller class to use
+     * @param verb:   "GET/POST"
+     * @param path:   "/path-to-page"
+     * @param clazz:  which controller class to use
      * @param method: controller methods
      */
     public void addRoute(String verb, String path, Class clazz, String method) {
+        // check if the verb is valid
+        Set<String> validVerbSet = new HashSet<>();
+        validVerbSet.addAll(Arrays.asList(validVerbs));
+        assert validVerbSet.contains(verb) : "Error: Invalid Route Verb!";
+
+        // implement the router
         className = clazz.getName();
-        // Implement me!
-        switch(verb){
-            case "GET":
-                if(!routes.containsKey("GET")){
-                    Map<String, String> getRoutes = new HashMap<>();
-                    getRoutes.put(path, method);
-                    routes.put("GET", getRoutes);
-                }
-                routes.get("GET").put(path, method);
-                break;
-            case "POST":
-                break;
-            default:
-                throw new IllegalCallerException();
-                // error!
+        if (!routes.containsKey(verb)) {
+            Map<String, String> getRoutes = new HashMap<>();
+            getRoutes.put(path, method);
+            routes.put(verb, getRoutes);
         }
+        routes.get(verb).put(path, method);
     }
 
     /**
      * Helper function
+     * 
      * @param verb
      * @param path
      * @return controller#method name based on verb & path
      */
     private String getControllerMethod(String verb, String path) {
-        if(!routes.containsKey(verb)){
+        if (!routes.containsKey(verb)) {
             throw new UnsupportedOperationException();
         }
-        if(!routes.get(verb).containsKey(path)){
+        if (!routes.get(verb).containsKey(path)) {
             throw new UnsupportedOperationException();
         }
 
         return routes.get(verb).get(path);
     }
 
-
     /**
      * @param verb
      * @param path
      * @return "clazz#method" corresponding to verb+URN,
-     * Null if no such route
+     *         Null if no such route
      */
     public String getRoute(String verb, String path) {
-        try{
+        try {
             return className + "#" + getControllerMethod(verb, path);
-        }catch(Exception e){
+        } catch (Exception e) {
             return null;
         }
     }
 
     /**
      * Call the appropriate controller method and
+     * 
      * @param verb
      * @param path
      * @param params
@@ -80,7 +81,7 @@ public class JRouter {
         try {
             Class<?> clazz = Class.forName(className);
             Method m = clazz.getMethod(getControllerMethod(verb, path));
-            Html result =  (Html) m.invoke(clazz, params);
+            Html result = (Html) m.invoke(clazz, params);
             return result;
         } catch (Exception e) {
             e.printStackTrace();
