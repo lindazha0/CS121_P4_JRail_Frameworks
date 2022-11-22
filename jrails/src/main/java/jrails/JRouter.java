@@ -29,11 +29,16 @@ public class JRouter {
 
         // implement the router
         className = clazz.getName();
+
+        // if no verb key
         if (!routes.containsKey(verb)) {
             Map<String, String> getRoutes = new HashMap<>();
             getRoutes.put(path, method);
             routes.put(verb, getRoutes);
+            return;
         }
+
+        // if verb key
         routes.get(verb).put(path, method);
     }
 
@@ -81,13 +86,12 @@ public class JRouter {
         try {
             Class<?> clazz = Class.forName(className);
             Method m = clazz.getMethod(getControllerMethod(verb, path));
-            Html result = (Html) m.invoke(clazz, params);
+            Html result = (Html) m.invoke(null, params);
             return result;
         } catch (Exception e) {
             e.printStackTrace();
         }
 
-        return null;
-        // throw new UnsupportedOperationException();
+        throw new UnsupportedOperationException();
     }
 }
