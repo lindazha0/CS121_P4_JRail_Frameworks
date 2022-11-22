@@ -2,71 +2,102 @@ package jrails;
 
 public class View {
     public static Html empty() {
-        throw new UnsupportedOperationException();
+        return new Html(null);
+        // throw new UnsupportedOperationException();
     }
 
     public static Html br() {
-        throw new UnsupportedOperationException();
+        return new Html("<br />");
+        // throw new UnsupportedOperationException();
     }
 
     public static Html t(Object o) {
         // Use o.toString() to get the text for this
-        throw new UnsupportedOperationException();
+        return new Html(o.toString());
+        // throw new UnsupportedOperationException();
     }
 
     public static Html p(Html child) {
-        throw new UnsupportedOperationException();
+        String txt = "<p>"+ child.toString()+"</p>";
+        return new Html(txt);
+        // throw new UnsupportedOperationException();
     }
 
     public static Html div(Html child) {
-        throw new UnsupportedOperationException();
+        String txt = "<div>"+ child.toString()+"</div>";
+        return new Html(txt);
+        // throw new UnsupportedOperationException();
     }
 
     public static Html strong(Html child) {
-        throw new UnsupportedOperationException();
+        String txt = "<strong>"+ child.toString()+"</strong>";
+        return new Html(txt);
+        // throw new UnsupportedOperationException();
     }
 
     public static Html h1(Html child) {
-        throw new UnsupportedOperationException();
+        String txt = "<h1>"+ child.toString()+"</h1>";
+        return new Html(txt);
+        // throw new UnsupportedOperationException();
     }
 
     public static Html tr(Html child) {
-        throw new UnsupportedOperationException();
+        String txt = "<tr>"+ child.toString()+"</tr>";
+        return new Html(txt);
+        // throw new UnsupportedOperationException();
     }
 
     public static Html th(Html child) {
-        throw new UnsupportedOperationException();
+        String txt = "<th>"+ child.toString()+"</th>";
+        return new Html(txt);
+        // throw new UnsupportedOperationException();
     }
 
     public static Html td(Html child) {
-        throw new UnsupportedOperationException();
+        String txt = "<td>"+ child.toString()+"<td>";
+        return new Html(txt);
+        // throw new UnsupportedOperationException();
     }
 
     public static Html table(Html child) {
-        throw new UnsupportedOperationException();
+        String txt = "<table>"+ child.toString()+"</table>";
+        return new Html(txt);
+        // throw new UnsupportedOperationException();
     }
 
     public static Html thead(Html child) {
-        throw new UnsupportedOperationException();
+        String txt = "<thead>"+ child.toString()+"</thead>";
+        return new Html(txt);
+        // throw new UnsupportedOperationException();
     }
 
     public static Html tbody(Html child) {
-        throw new UnsupportedOperationException();
+        String txt = "<tbody>"+ child.toString()+"</tbody>";
+        return new Html(txt);
+        // throw new UnsupportedOperationException();
     }
 
     public static Html textarea(String name, Html child) {
-        throw new UnsupportedOperationException();
+        String txt = "<textarea name=\"" +name+ "\">" +child.toString()+ "</textarea>";
+        return new Html(txt);
+        // throw new UnsupportedOperationException();
     }
 
     public static Html link_to(String text, String url) {
-        throw new UnsupportedOperationException();
+        String txt = "<a href=\"" +url+ "\">" +text+ "</a>";
+        return new Html(txt);
+        // throw new UnsupportedOperationException();
     }
 
     public static Html form(String action, Html child) {
-        throw new UnsupportedOperationException();
+        String txt = "<form action=\"" +action+ "\" accept-charset= \"UTF-8\" method=\"post\">" +child.toString()+ "</form>";
+        return new Html(txt);
+        // throw new UnsupportedOperationException();
     }
 
     public static Html submit(String value) {
-        throw new UnsupportedOperationException();
+        String txt = "<input type=\"submit\" value=\"" +value+ "\"/>";
+        return new Html(txt);
+        // throw new UnsupportedOperationException();
     }
 }

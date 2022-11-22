@@ -1,9 +1,23 @@
 package jrails;
 
 public class Html {
-    private String str;
+    // store the txt of the Html obj
+    private String text;
+    public void setText(String text){
+        this.text = text;
+    }
+
+    /**
+     * Constructor taking the text context
+     * @param text
+     */
+    public Html(String text){
+        this.text = text;
+    }
+
     public String toString() {
-        throw new UnsupportedOperationException();
+        return text;
+        // throw new UnsupportedOperationException();
     }
 
     public Html seq(Html h) {
@@ -16,7 +30,8 @@ public class Html {
 
     public static Html t(Object o) {
         // Use o.toString() to get the text for this
-        throw new UnsupportedOperationException();
+        return new Html(o.toString());
+        // throw new UnsupportedOperationException();
     }
 
     public static Html p(Html child) {
