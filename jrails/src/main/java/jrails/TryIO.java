@@ -16,22 +16,29 @@ public class TryIO {
             }
         }
 
+        new TryIO().writeToDB();
+        new TryIO().writeToDB();
+    }
+
+    public void writeToDB(){
         try {// line write
-            BufferedWriter bw = new BufferedWriter(new FileWriter(db));
+            BufferedWriter bw = new BufferedWriter(new FileWriter(path, true));
             bw.write("ID"+","+"Title"+","+"Author"+",");
             bw.newLine();
-            bw.write("1"+","+"balabala"+","+"Zhang San"+",");
-            bw.newLine();
-            bw.write("2"+","+"bilibili"+","+"Li Si"+",");
             bw.close();
 
-            readDB();
+            BufferedWriter bw1 = new BufferedWriter(new FileWriter(path, true));
+            bw1.write("1"+","+"balabala"+","+"Zhang San"+",");
+            bw1.newLine();
+            bw1.write("2"+","+"bilibili"+","+"Li Si"+",");
+            bw1.close();
 
-            // over write
-            PrintWriter pw =new PrintWriter(path);
-            pw.close();
-            
             readDB();
+            // over write
+//            PrintWriter pw =new PrintWriter(path);
+//            pw.close();
+
+//            readDB();
 
         } catch (IOException e) {
             e.printStackTrace();

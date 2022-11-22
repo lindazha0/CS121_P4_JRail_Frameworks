@@ -26,8 +26,17 @@ public class JRouterTest {
     }
 
     @Test
-    public void rout(){
-        jRouter.addRoute("GET", "/", BookController.class, "index");
-        jRouter.route("GET", "/",new HashMap<String, String>());
+    public void testBookRoute(){
+        JRouter r = new JRouter();
+        r.addRoute("GET", "/", BookController.class, "index");
+        r.addRoute("GET", "/show", BookController.class, "show");
+        r.addRoute("GET", "/new", BookController.class, "new_book");
+        r.addRoute("GET", "/edit", BookController.class, "edit");
+        r.addRoute("POST", "/create", BookController.class, "create");
+        r.addRoute("POST", "/update", BookController.class, "update");
+        r.addRoute("GET", "/destroy", BookController.class, "destroy");
+
+        r.route("GET", "/",new HashMap<String, String>());
+        r.route("GET", "/show",new HashMap<String, String>());
     }
 }
