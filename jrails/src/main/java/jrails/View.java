@@ -54,7 +54,7 @@ public class View {
     }
 
     public static Html td(Html child) {
-        String txt = "<td>"+ child.toString()+"<td>";
+        String txt = "<td>"+ child.toString()+"</td>";
         return new Html(txt);
         // throw new UnsupportedOperationException();
     }
@@ -90,7 +90,7 @@ public class View {
     }
 
     public static Html form(String action, Html child) {
-        String txt = "<form action=\"" +action+ "\" accept-charset= \"UTF-8\" method=\"post\">" +child.toString()+ "</form>";
+        String txt = "<form action=\"" +action+ "\" accept-charset=\"UTF-8\" method=\"post\">" +child.toString()+ "</form>";
         return new Html(txt);
         // throw new UnsupportedOperationException();
     }
