@@ -85,8 +85,8 @@ public class JRouter {
     public Html route(String verb, String path, Map<String, String> params) {
         try {
             Class<?> clazz = Class.forName(className);
-            Method m = clazz.getMethod(getControllerMethod(verb, path));
-            Html result = (Html) m.invoke(null, params);
+            Method m = clazz.getMethod(getControllerMethod(verb, path),Map.class);
+            Html result = (Html) m.invoke(clazz, params);
             return result;
         } catch (Exception e) {
             e.printStackTrace();

@@ -37,6 +37,6 @@ public class JRouterTest {
         r.addRoute("GET", "/destroy", BookController.class, "destroy");
 
         r.route("GET", "/",new HashMap<String, String>());
-        r.route("GET", "/show",new HashMap<String, String>());
+        r.route("GET", "/new",new HashMap<String, String>());
     }
 }
