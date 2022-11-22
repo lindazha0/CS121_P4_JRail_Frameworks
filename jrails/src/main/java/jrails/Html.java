@@ -8,6 +8,10 @@ public class Html {
         this.text = text;
     }
 
+    public Html() {
+        this.text = "";
+    }
+
     /**
      * Constructor taking the text context
      * 

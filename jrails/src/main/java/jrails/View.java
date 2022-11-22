@@ -2,7 +2,7 @@ package jrails;
 
 public class View {
     public static Html empty() {
-        return new Html(null);
+        return new Html();
         // throw new UnsupportedOperationException();
     }
 
