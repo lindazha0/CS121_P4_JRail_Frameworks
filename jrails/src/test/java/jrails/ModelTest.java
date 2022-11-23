@@ -49,7 +49,6 @@ public class ModelTest {
         b1.num_copies = 48; // the book in the db still has 999 copies
         b1.save(); // now the book in the db has 42 copies
 
-
         Book b2 = new Book();
         b2.title = "Programming Languages: Build, Prove, and Compare";
         b2.author = "Norman Ramsey";

@@ -285,6 +285,8 @@ public class Model {
                 Field db_f = db_entry.getClass().getFields()[i];
                 f.set(instance, getFieldValue(db_f.get(db_entry), f));
             }
+            System.out.println("dbMap Lookup Result for "+id+" : "+getFieldString(id, instance));
+
 
             return instance;
 
