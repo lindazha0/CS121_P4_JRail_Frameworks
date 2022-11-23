@@ -128,7 +128,6 @@ public class Model {
      * @throws InstantiationException
      */
     private static void loadDBMap(Class cls) throws InstantiationException, IllegalAccessException, IllegalArgumentException, InvocationTargetException, NoSuchMethodException, SecurityException, NoSuchFieldException {
-        System.out.println("load db to dbMap: "+dbMap.keySet());
         try{
             // read line by line
             BufferedReader br = new BufferedReader(new FileReader(dbName));
@@ -163,11 +162,9 @@ public class Model {
                 // load to dbMap
                 dbMap.put(id, instance);
                 line= br.readLine();
-
-
             }
             br.close();
-            System.out.println(dbMap.toString());
+            System.out.println("load db of "+dbMap.keySet()+" to dbMap: "+dbMap);
         }
         catch (IOException | ClassNotFoundException e) {
             e.printStackTrace();
