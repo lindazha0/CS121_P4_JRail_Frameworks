@@ -25,6 +25,7 @@ public class ModelTest {
 
     @Test
     public void bookTest(){
+        Model.reset();
         Book b = new Book();
         b.title = "Programming Languages: Build, Prove, and Compare";
         b.author = "Norman Ramsey";
@@ -42,6 +43,69 @@ public class ModelTest {
         Book b3 = Model.find(Book.class, 3); // finds the book with id 3 in the db, if any
         List<Book> bs = Model.all(Book.class); // returns all books in the db
         b.destroy(); // remove book b from db
+    }
+
+
+    @Test
+    public void find () throws IllegalAccessException {
+        Model.reset();
+        Model1 model1 = new Model1();
+        model1.s = "string";
+        model1.i = -10;
+        model1.b = false;
+        model1.save();
+
+        Book b = new Book();
+        b.author = "Wei Sheng";
+        b.title = "SWE 04";
+        b.num_copies = 1;
+        b.save();
+
+        b = Model.find(b.getClass(),b.id());
+        b.author = "Sheng Wei";
+        b.save();
+    }
+    @Test
+    public void save(){
+        Model.reset();
+        Model1 model1 = new Model1();
+        model1.s = "string";
+        model1.i = -10;
+        model1.b = false;
+
+        Model1 model2 = new Model1();
+        model2.s = null;
+        model2.i = -10;
+        model2.b = true;
+
+        Model1 model3 = new Model1();
+        model3.s = "";
+        model3.i = 0;
+        model3.b = false;
+
+        model1.save();
+        model2.save();
+        model3.save();
+
+        Book b = new Book();
+        b.author = " ";
+        b.title = "SWE 04";
+        b.num_copies = 1;
+        b.save();
+    }
+
+
+    @Test
+    public void all() throws IllegalAccessException {
+        var list = Model.all(Book.class);
+        for(var item: list){
+            System.out.println(item.getFieldString(item.id(), item));
+        }
+
+        var list2 = Model.all(Model1.class);
+        for(var item: list2){
+            System.out.println(item.getFieldString(item.id(), item));
+        }
     }
 
     @After

@@ -37,7 +37,7 @@ public class Model {
      * return a field String from a specific object
      * @return String of this.field values, beginning with id
      */
-    private static String getFieldString(int id, Object o) throws  IllegalAccessException {
+    public static String getFieldString(int id, Object o) throws  IllegalAccessException {
         StringBuilder fieldVals = new StringBuilder(String.valueOf(id));
         for (Field f : o.getClass().getFields()) {
             fieldVals.append(seperator).append(f.get(o));
@@ -75,20 +75,43 @@ public class Model {
         }
     }
 
-    private static Object getFieldValue(String input, Field f){
+    private static Object getFieldValue(Object input, Field f){
+        String inType = input.getClass().getSimpleName();
         String type = ((Class) f.getType()).getSimpleName();
+//        System.out.println("convert "+inType+" "+input+" to "+type+": ");
+
         switch (type){
             case "Integer", "int":
-                return Integer.valueOf(input);
+                switch (inType){
+                    case "Integer":
+                        case "int": return input;
+                    case "String":
+                        if (input.equals("false") || input.toString().isEmpty() || input.toString().equals(" ")){return 0;}
+                        if (input.equals("true")){return 1;}
+                        try{
+                            return Integer.valueOf(input.toString());
+                        }catch (Exception e){return 1;}
+                    case "boolean": return (Boolean)input? 1:0;
+                    default:
+                        throw new IllegalStateException("Unexpected value: " + inType);
+                }
 
             case "String":
-                return input;
-            case "Boolean":
-                return Boolean.valueOf(input);
+                return String.valueOf(input);
+
+            case "boolean":
+                switch (inType){
+                    case "Integer":
+                        case "int": return !(new Integer(0)).equals(input);
+                    case "String":
+                        return Boolean.valueOf(input.toString());
+                    case "boolean": return input;
+                    default:
+                        throw new IllegalStateException("Unexpected value: " + inType);
+                }
             default:
-                System.out.println("invalid type: "+type);
-                return null;
-//                throw new InvalidObjectException();
+                throw new IllegalStateException("Unexpected value: " + type);
+//                return null;
         }
     }
 
@@ -109,11 +132,17 @@ public class Model {
             // read line by line
             BufferedReader br = new BufferedReader(new FileReader(dbName));
             String line= br.readLine();
+            if(line==null || line.isEmpty()){
+                // empty db
+                br.close();
+                writeFirstRow();
+                return;
+            }
 
             // begins from 2nd line
             line= br.readLine();
 
-            while(line != null){
+            while(line!=null && !line.isEmpty()){
                 // System.out.println(line);
                 String[] fields = line.split(seperator);
 
@@ -123,7 +152,6 @@ public class Model {
                 Object instance = cls.getDeclaredConstructor().newInstance();
 
                 // set id
-//                cls.getField("id").set(instance, id);
                 cls.getMethod("setID", int.class).invoke(instance, id);
 
                 // set other fields
@@ -140,7 +168,7 @@ public class Model {
             br.close();
             System.out.println(dbMap.toString());
         }
-        catch (IOException e) {
+        catch (IOException | ClassNotFoundException e) {
             e.printStackTrace();
         }
     }
@@ -255,12 +283,16 @@ public class Model {
         try {
             // find Object and construct a new instance
             Object db_entry = dbMap.get(id);
-            // Class<?> model = db_entry.getClass();
             T instance = c.getDeclaredConstructor().newInstance();
 
+            // set ID
+            c.getMethod("setID", int.class).invoke(instance, id);
+
             // set values
-            for (Field f : c.getFields()) {
-                f.set(instance, f.get(db_entry));
+            for(int i=0;i<c.getFields().length;i++){
+                Field f = c.getFields()[i];
+                Field db_f = db_entry.getClass().getFields()[i];
+                f.set(instance, getFieldValue(db_f.get(db_entry), f));
             }
 
             return instance;
