@@ -61,6 +61,7 @@ public class Model {
             bw.newLine();
         }
         bw.close();
+        System.out.println("save dbMap to db file");
     }
 
 
@@ -127,7 +128,7 @@ public class Model {
      * @throws InstantiationException
      */
     private static void loadDBMap(Class cls) throws InstantiationException, IllegalAccessException, IllegalArgumentException, InvocationTargetException, NoSuchMethodException, SecurityException, NoSuchFieldException {
-        System.out.println("load db to dbMap");
+        System.out.println("load db to dbMap: "+dbMap.keySet());
         try{
             // read line by line
             BufferedReader br = new BufferedReader(new FileReader(dbName));

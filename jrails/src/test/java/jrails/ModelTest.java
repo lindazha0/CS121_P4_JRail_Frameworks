@@ -30,7 +30,7 @@ public class ModelTest {
         b.title = "Programming Languages: Build, Prove, and Compare";
         b.author = "Norman Ramsey";
         b.num_copies = 999;
-// The book b exists in memory but isn't saved to the db
+        // The book b exists in memory but isn't saved to the db
         b.save(); // now the book is in the db
         b.num_copies = 42; // the book in the db still has 999 copies
         b.save(); // now the book in the db has 42 copies
@@ -40,9 +40,14 @@ public class ModelTest {
         b2.num_copies = 888; // hm, same as other book
         b2.save(); // a second record is added to the database
         assert(b.id() != b2.id()); // every row has a globally unique id (int) column, so we can tell them apart
-        Book b3 = Model.find(Book.class, 3); // finds the book with id 3 in the db, if any
+        Book b3 = Model.find(Book.class, 1); // finds the book with id 3 in the db, if any
+        assert (b3.id() == Model.find(Book.class, 1).id());
+
+        b3.title="update Title with the fresh instance";
+        b3.save();
         List<Book> bs = Model.all(Book.class); // returns all books in the db
-        b.destroy(); // remove book b from db
+
+//        b.destroy(); // remove book b from db
     }
 
 
