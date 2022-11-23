@@ -36,9 +36,9 @@ public class Html {
         // throw new UnsupportedOperationException();
     }
 
-    public static Html t(Object o) {
+    public Html t(Object o) {
         // Use o.toString() to get the text for this
-        return new Html(o.toString());
+        return this.seq(new Html(o.toString()));
         // throw new UnsupportedOperationException();
     }
 
