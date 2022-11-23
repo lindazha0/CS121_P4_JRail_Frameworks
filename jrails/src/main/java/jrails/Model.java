@@ -261,7 +261,7 @@ public class Model {
     }
 
     public int id() {
-        System.out.println(this.toString());
+        System.out.println("invoke id() at: "+this.getClass().getName());
         return this.id;
         // throw new UnsupportedOperationException();
     }
