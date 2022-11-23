@@ -285,6 +285,7 @@ public class Model {
             System.out.println("dbMap ID Not Found: "+id);
             return null;
         }
+        System.out.println("dbMap Loopup: "+id);
 
         // materialize new instance
         try {
@@ -363,6 +364,7 @@ public class Model {
     }
 
     public static void reset() {
+        System.out.println("------------- Reset DB! ---------------- ");
         // empty db
         try {
             dbMap.clear();

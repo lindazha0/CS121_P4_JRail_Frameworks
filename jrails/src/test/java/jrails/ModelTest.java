@@ -26,6 +26,7 @@ public class ModelTest {
     @Test
     public void bookTest(){
         Model.reset();
+        
         Book b = new Book();
         b.title = "Programming Languages: Build, Prove, and Compare";
         b.author = "Norman Ramsey";
@@ -34,6 +35,17 @@ public class ModelTest {
         b.save(); // now the book is in the db
         b.num_copies = 42; // the book in the db still has 999 copies
         b.save(); // now the book in the db has 42 copies
+
+        Book b1 = new Book();
+        b1.title = "Book 1";
+        b1.author = "Chuyi Zhao";
+        b1.num_copies = 666;
+        // The book b exists in memory but isn't saved to the db
+        b1.save(); // now the book is in the db
+        b1.num_copies = 48; // the book in the db still has 999 copies
+        b1.save(); // now the book in the db has 42 copies
+
+
         Book b2 = new Book();
         b2.title = "Programming Languages: Build, Prove, and Compare";
         b2.author = "Norman Ramsey";
