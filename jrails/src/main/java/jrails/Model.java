@@ -92,7 +92,9 @@ public class Model {
                         try{
                             return Integer.valueOf(input.toString());
                         }catch (Exception e){return 1;}
-                    case "boolean": return (Boolean)input? 1:0;
+                    case "boolean":
+                    case "Boolean":
+                        return (Boolean)input? 1:0;
                     default:
                         throw new IllegalStateException("Unexpected value: " + inType);
                 }
@@ -100,13 +102,17 @@ public class Model {
             case "String":
                 return String.valueOf(input);
 
+            case "Boolean":
             case "boolean":
                 switch (inType){
                     case "Integer":
-                        case "int": return !(new Integer(0)).equals(input);
+                    case "int":
+                            return !(new Integer(0)).equals(input);
                     case "String":
                         return Boolean.valueOf(input.toString());
-                    case "boolean": return input;
+                    case "Boolean":
+                    case "boolean":
+                        return input;
                     default:
                         throw new IllegalStateException("Unexpected value: " + inType);
                 }
@@ -280,12 +286,9 @@ public class Model {
             T instance = c.getDeclaredConstructor().newInstance();
             System.out.println("! Lookup & Construct "+id+" : "+getFieldString(id, instance));
 
-
             // set ID
             c.getMethod("setID", int.class).invoke(instance, id);
             System.out.println("! Lookup & setID "+id+" : "+getFieldString(id, instance));
-
-
 
             // set values
             for(int i=0; i < c.getFields().length; i++){
