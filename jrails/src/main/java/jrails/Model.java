@@ -266,8 +266,8 @@ public class Model {
 
     public int id() {
         try {
-            System.out.println("---  invoke id() at " + this.toString() + " : " + getFieldString(this.id, this)+"  ---");
-        }catch (Exception e){e.printStackTrace();}
+            System.out.println("---  invoke id() at " + this + " : " + getFieldString(this.id, this)+"  ---");
+        }catch (Exception e){e.printStackTrace(); return 0;}
         return this.id;
         // throw new UnsupportedOperationException();
     }

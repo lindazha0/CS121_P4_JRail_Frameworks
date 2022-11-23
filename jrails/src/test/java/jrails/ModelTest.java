@@ -21,12 +21,14 @@ public class ModelTest {
     @Test
     public void id() {
         assertThat(model.id(), notNullValue());
+        assertThat((new Model()).id(), notNullValue());
+        assertThat( (new Book()).id(), notNullValue());
     }
 
     @Test
     public void bookTest(){
         Model.reset();
-        
+
         Book b = new Book();
         b.title = "Programming Languages: Build, Prove, and Compare";
         b.author = "Norman Ramsey";
