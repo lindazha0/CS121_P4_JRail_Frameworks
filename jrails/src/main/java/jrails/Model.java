@@ -254,7 +254,7 @@ public class Model {
 
             }
 
-            System.out.println("*** saved: "+getFieldString(this.id, this)+" to: "+dbMap.keySet()+"***");
+            System.out.println("***  saved: "+getFieldString(this.id, this)+" to: "+dbMap.keySet()+"  ***");
 
         } catch (Exception ex) {
             ex.printStackTrace();
@@ -265,7 +265,7 @@ public class Model {
 
     public int id() {
         try {
-            System.out.println("--- invoke id() at " + this.getClass().getName() + " : " + getFieldString(this.id, this)+"---");
+            System.out.println("---  invoke id() at " + this.toString() + " : " + getFieldString(this.id, this)+"  ---");
         }catch (Exception e){e.printStackTrace();}
         return this.id;
         // throw new UnsupportedOperationException();
@@ -312,7 +312,7 @@ public class Model {
 
     /**
      * load the current db to the dbMap and return a List<T>
-     * 
+     *
      * @param <T>
      * @param c
      * @return List<T>
@@ -349,6 +349,8 @@ public class Model {
             throw new UnsupportedOperationException();
         }
 
+        try{System.out.println("***  destroyed: "+getFieldString(this.id, this)+" to: "+dbMap.keySet()+"  ***");}
+        catch (Exception e){e.printStackTrace();}
         dbMap.remove(this.id);
 
         try {
