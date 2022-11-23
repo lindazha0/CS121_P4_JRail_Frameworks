@@ -261,6 +261,7 @@ public class Model {
     }
 
     public int id() {
+        System.out.println(this.toString());
         return this.id;
         // throw new UnsupportedOperationException();
     }
