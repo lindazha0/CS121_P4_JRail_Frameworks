@@ -107,7 +107,7 @@ public class Model {
                 switch (inType){
                     case "Integer":
                     case "int":
-                            return !(new Integer(0)).equals(input);
+                            return !(Integer.valueOf(0)).equals(input);
                     case "String":
                         return Boolean.valueOf(input.toString());
                     case "Boolean":
@@ -246,7 +246,6 @@ public class Model {
                 // update db file
                 saveDBMap();
             }
-
             System.out.println("***  saved: "+getFieldString(this.id, this)+" to: "+dbMap.keySet()+"  ***");
 
         } catch (Exception ex) {
@@ -269,7 +268,6 @@ public class Model {
             e1.printStackTrace();
         }
 
-
         if (!dbMap.containsKey(id)) {
             System.out.println("dbMap ID Not Found: "+id);
             return null;
@@ -281,35 +279,24 @@ public class Model {
         try {
             // find Object and construct a new instance
             Object db_entry = dbMap.get(id);
-            System.out.println("! Lookup & Find "+id+" : "+getFieldString(id, db_entry));
-
             T instance = c.getDeclaredConstructor().newInstance();
-            System.out.println("! Lookup & Construct "+id+" : "+getFieldString(id, instance));
 
             // set ID
             c.getMethod("setID", int.class).invoke(instance, id);
-            System.out.println("! Lookup & setID "+id+" : "+getFieldString(id, instance));
 
             // set values
             for(int i=0; i < c.getFields().length; i++){
                 Field f = c.getFields()[i];
-                System.out.println("target Field: "+f.toString());
-
                 Field db_f = db_entry.getClass().getFields()[i];
-                System.out.println("source Field: "+db_f.toString());
-
                 f.set(instance, getFieldValue(db_f.get(db_entry), f));
-//                System.out.println("get Field "+f.toString());
             }
             System.out.println("! Lookup & setFields "+id+" : "+getFieldString(id, instance));
-
             return instance;
 
         } catch (Exception e) {
             e.printStackTrace();
             return null;
         }
-
     }
 
     /**
