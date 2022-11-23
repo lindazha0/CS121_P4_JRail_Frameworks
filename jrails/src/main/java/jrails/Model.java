@@ -136,6 +136,7 @@ public class Model {
                 // empty db
                 br.close();
                 writeFirstRow();
+                System.out.println("Empty db & dbMap!");
                 return;
             }
 
