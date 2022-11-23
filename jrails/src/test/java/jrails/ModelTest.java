@@ -39,9 +39,11 @@ public class ModelTest {
         b2.author = "Norman Ramsey";
         b2.num_copies = 888; // hm, same as other book
         b2.save(); // a second record is added to the database
+        b2.save();
+        b2.save();
         assert(b.id() != b2.id()); // every row has a globally unique id (int) column, so we can tell them apart
-        Book b3 = Model.find(Book.class, 1); // finds the book with id 3 in the db, if any
-        assert (b3.id() == Model.find(Book.class, 1).id());
+        Book b3 = Model.find(Book.class, b2.id()); // finds the book with id 3 in the db, if any
+        assert (b3.id() == Model.find(Book.class, b3.id()).id());
 
         b3.title="update Title with the fresh instance";
         b3.save();
