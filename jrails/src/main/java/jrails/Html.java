@@ -27,12 +27,12 @@ public class Html {
     }
 
     public Html seq(Html h) {
-        return new Html(text +"."+ h.toString());
+        return new Html(text + h.toString());
         // throw new UnsupportedOperationException();
     }
 
     public Html br() {
-        return View.br();
+        return this.seq(View.br());
         // throw new UnsupportedOperationException();
     }
 
@@ -42,73 +42,73 @@ public class Html {
         // throw new UnsupportedOperationException();
     }
 
-    public static Html p(Html child) {
-        return View.p(child);
+    public Html p(Html child) {
+        return this.seq(View.p(child));
         // throw new UnsupportedOperationException();
     }
 
     public Html div(Html child) {
-        return View.div(child);
+        return this.seq(View.div(child));
         // throw new UnsupportedOperationException();
     }
 
     public Html strong(Html child) {
-        return View.strong(child);
+        return this.seq(View.strong(child));
         // throw new UnsupportedOperationException();
     }
 
     public Html h1(Html child) {
-        return View.h1(child);
+        return this.seq(View.h1(child));
         // throw new UnsupportedOperationException();
     }
 
     public Html tr(Html child) {
-        return View.tr(child);
+        return this.seq(View.tr(child));
         // throw new UnsupportedOperationException();
     }
 
     public Html th(Html child) {
-        return View.th(child);
+        return this.seq(View.th(child));
         // throw new UnsupportedOperationException();
     }
 
     public Html td(Html child) {
-        return View.td(child);
+        return this.seq(View.td(child));
         // throw new UnsupportedOperationException();
     }
 
     public Html table(Html child) {
-        return View.table(child);
+        return this.seq(View.table(child));
         // throw new UnsupportedOperationException();
     }
 
     public Html thead(Html child) {
-        return View.thead(child);
+        return this.seq(View.thead(child));
         // throw new UnsupportedOperationException();
     }
 
     public Html tbody(Html child) {
-        return View.tbody(child);
+        return this.seq(View.tbody(child));
         // throw new UnsupportedOperationException();
     }
 
     public Html textarea(String name, Html child) {
-        return View.textarea(name, child);
+        return this.seq(View.textarea(name, child));
         // throw new UnsupportedOperationException();
     }
 
     public Html link_to(String text, String url) {
-        return View.link_to(text, url);
+        return this.seq(View.link_to(text, url));
         // throw new UnsupportedOperationException();
     }
 
     public Html form(String action, Html child) {
-        return View.form(action, child);
+        return this.seq(View.form(action, child));
         // throw new UnsupportedOperationException();
     }
 
     public Html submit(String value) {
-        return View.submit(value);
+        return this.seq(View.submit(value));
         // throw new UnsupportedOperationException();
     }
 }

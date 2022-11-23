@@ -19,4 +19,12 @@ public class HtmlTest {
     public void empty() {
         assertThat(View.empty().toString(), isEmptyString());
     }
+
+    @Test
+    public void shengTest() {
+        System.out.println(html.p(html.t("text0")));
+        System.out.println(html.p(html.p(html.t("text2"))));
+        System.out.println(html.p(html.t("text3")).p(html.t("test4")));
+        System.out.println(html.p(html.p(html.t("text5"))).p(html.t("test6")));
+    }
 }
