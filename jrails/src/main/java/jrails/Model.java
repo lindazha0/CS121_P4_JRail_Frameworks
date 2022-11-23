@@ -79,7 +79,7 @@ public class Model {
     private static Object getFieldValue(Object input, Field f){
         String inType = input.getClass().getSimpleName();
         String type = ((Class) f.getType()).getSimpleName();
-//        System.out.println("convert "+inType+" "+input+" to "+type+": ");
+        System.out.println("convert "+inType+" "+input+" to "+type+": ");
 
         switch (type){
             case "Integer", "int":
@@ -270,10 +270,13 @@ public class Model {
         }
         System.out.println("dbMap Lookup: "+id+" for "+c.toString());
 
+
         // materialize new instance
         try {
             // find Object and construct a new instance
             Object db_entry = dbMap.get(id);
+            System.out.println("! Lookup & Find "+id+" : "+getFieldString(id, db_entry));
+
             T instance = c.getDeclaredConstructor().newInstance();
             System.out.println("! Lookup & Construct "+id+" : "+getFieldString(id, instance));
 
@@ -285,10 +288,15 @@ public class Model {
 
 
             // set values
-            for(int i=0;i<c.getFields().length;i++){
+            for(int i=0; i < c.getFields().length; i++){
                 Field f = c.getFields()[i];
+                System.out.println("target Field: "+f.toString());
+
                 Field db_f = db_entry.getClass().getFields()[i];
+                System.out.println("source Field: "+db_f.toString());
+
                 f.set(instance, getFieldValue(db_f.get(db_entry), f));
+//                System.out.println("get Field "+f.toString());
             }
             System.out.println("! Lookup & setFields "+id+" : "+getFieldString(id, instance));
 
@@ -296,9 +304,9 @@ public class Model {
 
         } catch (Exception e) {
             e.printStackTrace();
+            return null;
         }
 
-        return null;
     }
 
     /**
