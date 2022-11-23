@@ -26,7 +26,7 @@ public class ModelTest {
     }
 
     @Test
-    public void bookTest(){
+    public void bookTest()  throws IllegalAccessException{
         Model.reset();
 
         Book b = new Book();
@@ -61,6 +61,11 @@ public class ModelTest {
         assert(b.id() != b1.id()); // every row has a globally unique id (int) column, so we can tell them apart
         Book b3 = Model.find(Book.class, b2.id()); // finds the book with id 3 in the db, if any
         assert (b3.id() == Model.find(Book.class, b3.id()).id());
+
+        var list2 = Model.all(Model1.class);
+        for(var item: list2){
+            System.out.println(item.getFieldString(item.id(), item));
+        }
 
         b3.title="update Title with the fresh instance";
         b3.save();

@@ -268,16 +268,21 @@ public class Model {
             System.out.println("dbMap ID Not Found: "+id);
             return null;
         }
-        System.out.println("dbMap Lookup: "+id);
+        System.out.println("dbMap Lookup: "+id+" for "+c.toString());
 
         // materialize new instance
         try {
             // find Object and construct a new instance
             Object db_entry = dbMap.get(id);
             T instance = c.getDeclaredConstructor().newInstance();
+            System.out.println("! Lookup & Construct "+id+" : "+getFieldString(id, instance));
+
 
             // set ID
             c.getMethod("setID", int.class).invoke(instance, id);
+            System.out.println("! Lookup & setID "+id+" : "+getFieldString(id, instance));
+
+
 
             // set values
             for(int i=0;i<c.getFields().length;i++){
@@ -285,8 +290,7 @@ public class Model {
                 Field db_f = db_entry.getClass().getFields()[i];
                 f.set(instance, getFieldValue(db_f.get(db_entry), f));
             }
-            System.out.println("dbMap Lookup Result for "+id+" : "+getFieldString(id, instance));
-
+            System.out.println("! Lookup & setFields "+id+" : "+getFieldString(id, instance));
 
             return instance;
 
