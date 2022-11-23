@@ -35,7 +35,7 @@ public class Model {
     /**
      * Helper:
      * return a field String from a specific object
-     * @return String of this.field values, beginning with id
+     * @return String of this. Field values, beginning with id
      */
     public static String getFieldString(int id, Object o) throws  IllegalAccessException {
         StringBuilder fieldVals = new StringBuilder(String.valueOf(id));
@@ -157,7 +157,7 @@ public class Model {
 
                 // set other fields
                 for(Field f:cls.getFields()){
-                    f.set(instance, getFieldValue(fields[i++],f));
+                    f.set(instance, getFieldValue(fields[i++], f));
                 }
 
                 // load to dbMap
@@ -204,18 +204,12 @@ public class Model {
             if (!db.isFile() || !db.exists()) {
                 db.createNewFile();
 
-                synchronized (this){
-                    // write to the db
-                    writeFirstRow();
-                }
-//                System.out.println("after add 1st line:");
-//                readDB();
+                // write to the db
+                writeFirstRow();
             }
             else{
                 // if db file is not empty, maintain dbMap if needed
                 maintainDBMap(this.getClass());
-//                System.out.println("after maintain DBMap:");
-//                readDB();
             }
 
             // set id if not saved before
@@ -227,8 +221,6 @@ public class Model {
 
                 // update dbMap
                 dbMap.put(this.id, this);
-//                System.out.println(dbMap.keySet());
-
 
                 synchronized (this){
                     // add a new line to file
@@ -241,18 +233,12 @@ public class Model {
                     bw.close();
                 }
 
-//                System.out.println("after add new line:");
-//                readDB();
             } else {
                 // update dbMap
                 dbMap.put(this.id, this);
-//                System.out.println(dbMap.keySet());
 
                 // update db file
                 saveDBMap();
-//                System.out.println("after saveDBMap:");
-//                readDB();
-
             }
 
             System.out.println("***  saved: "+getFieldString(this.id, this)+" to: "+dbMap.keySet()+"  ***");
@@ -260,8 +246,6 @@ public class Model {
         } catch (Exception ex) {
             ex.printStackTrace();
         }
-
-        // throw new UnsupportedOperationException();
     }
 
     public int id() {
@@ -269,7 +253,6 @@ public class Model {
             System.out.println("---  invoke id() at " + this + " : " + getFieldString(this.id, this)+"  ---");
         }catch (Exception e){e.printStackTrace(); return 0;}
         return this.id;
-        // throw new UnsupportedOperationException();
     }
 
     public static <T> T find(Class<T> c, int id) {
@@ -285,7 +268,7 @@ public class Model {
             System.out.println("dbMap ID Not Found: "+id);
             return null;
         }
-        System.out.println("dbMap Loopup: "+id);
+        System.out.println("dbMap Lookup: "+id);
 
         // materialize new instance
         try {
@@ -326,6 +309,7 @@ public class Model {
                  InvocationTargetException | NoSuchMethodException | SecurityException | NoSuchFieldException e1) {
             e1.printStackTrace();
         }
+        System.out.println("Fetch all db entries in "+c.getSimpleName()+" form");
 
         // Returns a List<element type>
         List<T> t_list = new ArrayList<>();
