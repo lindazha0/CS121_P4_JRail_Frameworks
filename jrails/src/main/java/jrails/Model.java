@@ -253,15 +253,20 @@ public class Model {
 //                readDB();
 
             }
+
+            System.out.println("*** saved: "+getFieldString(this.id, this)+" to: "+dbMap.keySet()+"***");
+
         } catch (Exception ex) {
             ex.printStackTrace();
         }
-        System.out.println("save to: "+dbMap.keySet());
+
         // throw new UnsupportedOperationException();
     }
 
     public int id() {
-        System.out.println("invoke id() at: "+this.getClass().getName());
+        try {
+            System.out.println("--- invoke id() at " + this.getClass().getName() + " : " + getFieldString(this.id, this)+"---");
+        }catch (Exception e){e.printStackTrace();}
         return this.id;
         // throw new UnsupportedOperationException();
     }
