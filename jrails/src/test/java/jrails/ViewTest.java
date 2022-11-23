@@ -23,6 +23,7 @@ public class ViewTest {
         b.author = "Norman Ramsey";
         b.num_copies = 999;
         String s = BookView.show(b).toString();
+        System.out.println(s);
     }
 
     @Test

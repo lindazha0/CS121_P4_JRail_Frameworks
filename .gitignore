@@ -6,6 +6,12 @@
 # Datasource local storage ignored files
 /dataSources/
 /dataSources.local.xml
-*.class
 .gradle/
 .idea/
+books/db.txt
+rails/bin/
+jrails/bin/
+jrails/src/main/jrails/TryIO.java
+books/bin/main/books/BookView.class
+jrails/*.txt
+jrails/src/main/jrails/*.txt
