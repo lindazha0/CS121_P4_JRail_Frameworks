@@ -44,16 +44,18 @@ public class JRouter {
 
     /**
      * Helper function
-     * 
+     *
      * @param verb
      * @param path
      * @return controller#method name based on verb & path
      */
     private String getControllerMethod(String verb, String path) {
         if (!routes.containsKey(verb)) {
+            System.out.println("Error: Invalid Route Verb! "+ verb);
             throw new UnsupportedOperationException();
         }
         if (!routes.get(verb).containsKey(path)) {
+            System.out.println("Error: Invalid Route Path! "+ path);
             throw new UnsupportedOperationException();
         }
 

@@ -21,9 +21,9 @@ public class BookController extends Controller {
 
     public static Html new_book(Map<String, String> params) {
         Book b = new Book();
-        b.title = "";
-        b.author = "";
-        b.num_copies = 0;
+	b.title = "";
+	b.author = "";
+	b.num_copies = 0;
         return BookView.new_book(b);
     }
 

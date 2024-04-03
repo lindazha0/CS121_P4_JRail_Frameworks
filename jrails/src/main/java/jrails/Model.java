@@ -47,7 +47,7 @@ public class Model {
     }
 
     /**
-     * Helper: 
+     * Helper:
      * save dbMap to the db disk file
      * @throws IllegalArgumentException
      */
@@ -123,9 +123,9 @@ public class Model {
     }
 
 
-    /** 
+    /**
      * load dbfile to dbMap
-     * @param cls 
+     * @param cls
      * @throws SecurityException
      * @throws NoSuchMethodException
      * @throws InvocationTargetException
@@ -194,7 +194,7 @@ public class Model {
             e.printStackTrace();
         }
     }
-    
+
     /**
      * save current instance to the dist file
      */

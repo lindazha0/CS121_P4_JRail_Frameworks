@@ -71,7 +71,7 @@ public class ModelTest {
         b3.save();
         List<Book> bs = Model.all(Book.class); // returns all books in the db
 
-//        b.destroy(); // remove book b from db
+       b.destroy(); // remove book b from db
     }
 
 
@@ -128,12 +128,12 @@ public class ModelTest {
     public void all() throws IllegalAccessException {
         var list = Model.all(Book.class);
         for(var item: list){
-            System.out.println(item.getFieldString(item.id(), item));
+            System.out.println(Model.getFieldString(item.id(), item));
         }
 
         var list2 = Model.all(Model1.class);
         for(var item: list2){
-            System.out.println(item.getFieldString(item.id(), item));
+            System.out.println(Model.getFieldString(item.id(), item));
         }
     }
 
