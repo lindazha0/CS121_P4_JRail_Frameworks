@@ -2,19 +2,17 @@
 /shelf/
 *.class
 *.jar
+.gradle/
+.idea/
+.vscode/
 # Editor-based HTTP Client requests
 /httpRequests/
 # Datasource local storage ignored files
 /dataSources/
 *.xml
-.gradle/
-.idea/
-books/db.txt
-rails/bin/
+*.txt
 jrails/bin/
 jrails/build/
 jrails/src/main/jrails/TryIO.java
-books/bin/main/books/BookView.class
 books/build/
-jrails/*.txt
-jrails/src/main/jrails/*.txt
+.DS_Store
