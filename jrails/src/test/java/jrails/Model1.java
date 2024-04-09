@@ -1,7 +1,5 @@
 package jrails;
 
-import books.Book;
-
 public class Model1 extends Model{
     @Column
     public String s;

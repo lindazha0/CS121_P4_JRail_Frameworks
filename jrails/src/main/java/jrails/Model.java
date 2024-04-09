@@ -8,11 +8,11 @@ public class Model {
     // static fields
     static int counter = 0;
     static String className;
-    final static String dbName = "./db.txt";
     static Map<Integer, Object> dbMap = new HashMap<>(); // the two always up-to-date
-    static String seperator = " ｜ ";
+    final static String seperator = " ｜ ";              // the db file and seperator
+    final static String dbName = "./db.txt";
 
-    // instance fields
+    // ID: instance field. 0 by default (meaning not saved), and reassigned from 1 when saved
     private int id = 0;
     public void setID(int id){
         this.id = id;
@@ -34,7 +34,7 @@ public class Model {
 
     /**
      * Helper:
-     * return a field String from a specific object
+     * return a field String (A row in db.txt) for a specific object
      * @return String of this. Field values, beginning with id
      */
     public static String getFieldString(int id, Object o) throws  IllegalAccessException {
@@ -77,15 +77,22 @@ public class Model {
     }
 
     private static Object getFieldValue(Object input, Field f){
+        // trivial case
+        if(input == null){return null;}
+
+        // convert input to the field type possibly
         String inType = input.getClass().getSimpleName();
         String type = ((Class) f.getType()).getSimpleName();
-        System.out.println("convert "+inType+" "+input+" to "+type+": ");
+        if(!inType.equals(type)){ // if not the same type
+            System.out.println("convert "+inType+" "+input+" to "+type+": ");
+        }
 
         switch (type){
             case "Integer", "int":
                 switch (inType){
                     case "Integer":
-                        case "int": return input;
+                    case "int":
+                        return input;
                     case "String":
                         if (input.equals("false") || input.toString().isEmpty() || input.toString().equals(" ")){return 0;}
                         if (input.equals("true")){return 1;}
@@ -118,7 +125,6 @@ public class Model {
                 }
             default:
                 throw new IllegalStateException("Unexpected value: " + type);
-//                return null;
         }
     }
 
@@ -168,10 +174,10 @@ public class Model {
 
                 // load to dbMap
                 dbMap.put(id, instance);
-                line= br.readLine();
+                line = br.readLine();
             }
             br.close();
-            System.out.println("load db of "+dbMap.keySet()+" to dbMap: "+dbMap);
+            System.out.println("load db of " + dbMap.keySet() + " to dbMap: "+dbMap);
         }
         catch (IOException | ClassNotFoundException e) {
             e.printStackTrace();
@@ -256,10 +262,17 @@ public class Model {
     public int id() {
         try {
             System.out.println("---  invoke id() at " + this + " : " + getFieldString(this.id, this)+"  ---");
-        }catch (Exception e){e.printStackTrace(); return 0;}
+        } catch (Exception e) {e.printStackTrace(); return 0;}
         return this.id;
     }
 
+    /**
+     * find the model with the given id
+     * @param <T>
+     * @param c
+     * @param id
+     * @return T instance, or null if not found
+     */
     public static <T> T find(Class<T> c, int id) {
         try {
             maintainDBMap(c);
@@ -273,7 +286,6 @@ public class Model {
             return null;
         }
         System.out.println("dbMap Lookup: "+id+" for "+c.toString());
-
 
         // materialize new instance
         try {
@@ -313,12 +325,15 @@ public class Model {
                  InvocationTargetException | NoSuchMethodException | SecurityException | NoSuchFieldException e1) {
             e1.printStackTrace();
         }
-        System.out.println("Fetch all db entries in "+c.getSimpleName()+" form");
+        System.out.println("Fetch all db entries in " + c.getSimpleName() + " form");
 
         // Returns a List<element type>
         List<T> t_list = new ArrayList<>();
         for (Integer i : dbMap.keySet()) {
-            t_list.add(find(c, i));
+            T instance = find(c, i);
+            if (instance != null) {
+                t_list.add(instance);
+            }
         }
         return t_list;
         // throw new UnsupportedOperationException();
@@ -360,6 +375,5 @@ public class Model {
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
-        // throw new UnsupportedOperationException();
     }
 }

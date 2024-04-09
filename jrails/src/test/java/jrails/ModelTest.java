@@ -1,9 +1,9 @@
 package jrails;
 
-import org.junit.After;
+import books.Book;
 import org.junit.Before;
 import org.junit.Test;
-import books.Book;
+import org.junit.After;
 import java.util.List;
 
 import static org.hamcrest.core.IsNull.notNullValue;
@@ -71,12 +71,12 @@ public class ModelTest {
         b3.save();
         List<Book> bs = Model.all(Book.class); // returns all books in the db
 
-       b.destroy(); // remove book b from db
+    //    b.destroy(); // remove book b from db
     }
 
 
     @Test
-    public void find () throws IllegalAccessException {
+    public void test_find () throws IllegalAccessException {
         Model.reset();
         Model1 model1 = new Model1();
         model1.s = "string";
@@ -85,26 +85,28 @@ public class ModelTest {
         model1.save();
 
         Book b = new Book();
-        b.author = "Wei Sheng";
+        b.author = null;
         b.title = "SWE 04";
         b.num_copies = 1;
         b.save();
 
         b = Model.find(b.getClass(),b.id());
-        b.author = "Sheng Wei";
+        assert(b.author == null);
+        // b.author = "null";
         b.save();
+        // assert(b.author.equals("null"));
     }
     @Test
     public void save(){
         Model.reset();
         Model1 model1 = new Model1();
-        model1.s = "string";
+        model1.s = "null";
         model1.i = -10;
         model1.b = false;
 
         Model1 model2 = new Model1();
         model2.s = null;
-        model2.i = -10;
+        model2.i = 10;
         model2.b = true;
 
         Model1 model3 = new Model1();
@@ -113,11 +115,14 @@ public class ModelTest {
         model3.b = false;
 
         model1.save();
+        assert(Model.find(Model1.class, model1.id()).s.equals("null"));
         model2.save();
+        assert(Model.find(Model1.class, model2.id()).s == null);
         model3.save();
+        assert(Model.find(Model1.class, model3.id()).s.equals(""));
 
         Book b = new Book();
-        b.author = " ";
+        b.author = "";
         b.title = "SWE 04";
         b.num_copies = 1;
         b.save();
