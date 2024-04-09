@@ -76,10 +76,10 @@ public class ModelTest {
 
 
     @Test
-    public void test_find () throws IllegalAccessException {
+    public void find () throws IllegalAccessException {
         Model.reset();
         Model1 model1 = new Model1();
-        model1.s = "string";
+        model1.s = "model1";
         model1.i = -10;
         model1.b = false;
         model1.save();
@@ -92,9 +92,12 @@ public class ModelTest {
 
         b = Model.find(b.getClass(),b.id());
         assert(b.author == null);
-        // b.author = "null";
+        b.author = "null";
         b.save();
-        // assert(b.author.equals("null"));
+        assert(b.author.equals("null"));
+
+        // invalid class type
+        assert(Model.find(Book.class, model1.id()) == null);
     }
     @Test
     public void save(){

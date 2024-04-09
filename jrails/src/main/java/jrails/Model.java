@@ -22,8 +22,9 @@ public class Model {
         // create the buffer writer
         BufferedWriter bw = new BufferedWriter(new FileWriter(dbName));
 
-        // first row: field names
+        // first row: ID, class name, and field names
         StringBuilder fieldNames = new StringBuilder("id");
+        fieldNames.append(seperator).append("class("+className+")");
         for (Field f : Class.forName(className).getFields()) {
             fieldNames.append(seperator).append(f.getName());
         }
@@ -39,6 +40,7 @@ public class Model {
      */
     public static String getFieldString(int id, Object o) throws  IllegalAccessException {
         StringBuilder fieldVals = new StringBuilder(String.valueOf(id));
+        fieldVals.append(seperator).append(o.getClass().getName());
         for (Field f : o.getClass().getFields()) {
             fieldVals.append(seperator).append(f.get(o));
         }
@@ -130,7 +132,7 @@ public class Model {
 
 
     /**
-     * load dbfile to dbMap
+     * load dbfile to dbMap, thus emptying dbMap if db file is empty
      * @param cls
      * @throws SecurityException
      * @throws NoSuchMethodException
@@ -139,7 +141,7 @@ public class Model {
      * @throws IllegalAccessException
      * @throws InstantiationException
      */
-    private static void loadDBMap(Class cls) throws InstantiationException, IllegalAccessException, IllegalArgumentException, InvocationTargetException, NoSuchMethodException, SecurityException, NoSuchFieldException {
+    private static void loadDBMap(Class<?> cls) throws InstantiationException, IllegalAccessException, IllegalArgumentException, InvocationTargetException, NoSuchMethodException, SecurityException, NoSuchFieldException {
         try{
             // read line by line
             BufferedReader br = new BufferedReader(new FileReader(dbName));
@@ -153,7 +155,7 @@ public class Model {
             }
 
             // begins from 2nd line
-            line= br.readLine();
+            line = br.readLine();
 
             while(line!=null && !line.isEmpty()){
                 // System.out.println(line);
@@ -289,11 +291,15 @@ public class Model {
 
         // materialize new instance
         try {
-            // find Object and construct a new instance
+            // find Object by id, then checked the class type
             Object db_entry = dbMap.get(id);
-            T instance = c.getDeclaredConstructor().newInstance();
+            if (db_entry.getClass() != c){
+                System.out.println("Invalid class type: "+db_entry.getClass().getName());
+                return null;
+            }
 
-            // set ID
+            // if same type, construct a fresh new instance
+            T instance = c.getDeclaredConstructor().newInstance();
             c.getMethod("setID", int.class).invoke(instance, id);
 
             // set values
