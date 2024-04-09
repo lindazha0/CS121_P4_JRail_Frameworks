@@ -85,9 +85,9 @@ public class Model {
         // convert input to the field type possibly
         String inType = input.getClass().getSimpleName();
         String type = ((Class) f.getType()).getSimpleName();
-        if(!inType.equals(type)){ // if not the same type
-            System.out.println("convert "+inType+" "+input+" to "+type+": ");
-        }
+        // if(!inType.equals(type)){ // if not the same type
+        //     System.out.println("convert "+inType+" "+input+" to "+type);
+        // }
 
         switch (type){
             case "Integer", "int":
@@ -129,7 +129,6 @@ public class Model {
                 throw new IllegalStateException("Unexpected value: " + type);
         }
     }
-
 
     /**
      * load dbfile to dbMap, thus emptying dbMap if db file is empty
@@ -287,7 +286,7 @@ public class Model {
             System.out.println("dbMap ID Not Found: "+id);
             return null;
         }
-        System.out.println("dbMap Lookup: "+id+" for "+c.toString());
+        // System.out.println("dbMap Lookup: "+id+" for "+c.toString());
 
         // materialize new instance
         try {

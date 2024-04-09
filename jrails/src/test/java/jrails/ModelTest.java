@@ -74,7 +74,6 @@ public class ModelTest {
     //    b.destroy(); // remove book b from db
     }
 
-
     @Test
     public void find () throws IllegalAccessException {
         Model.reset();
@@ -96,9 +95,10 @@ public class ModelTest {
         b.save();
         assert(b.author.equals("null"));
 
-        // invalid class type
+        // unmatching class type
         assert(Model.find(Book.class, model1.id()) == null);
     }
+
     @Test
     public void save(){
         Model.reset();
