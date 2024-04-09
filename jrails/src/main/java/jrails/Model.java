@@ -307,7 +307,7 @@ public class Model {
                 Field db_f = db_entry.getClass().getFields()[i];
                 f.set(instance, getFieldValue(db_f.get(db_entry), f));
             }
-            System.out.println("! Lookup & setFields "+id+" : "+getFieldString(id, instance));
+            // System.out.println("! Lookup & setFields "+id+" : "+getFieldString(id, instance));
             return instance;
 
         } catch (Exception e) {

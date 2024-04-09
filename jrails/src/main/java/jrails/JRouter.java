@@ -21,7 +21,7 @@ public class JRouter {
      * @param clazz:  which controller class to use
      * @param method: controller methods
      */
-    public void addRoute(String verb, String path, Class clazz, String method) {
+    public void addRoute(String verb, String path, Class<?> clazz, String method) {
         // check if the verb is valid
         Set<String> validVerbSet = new HashSet<>();
         validVerbSet.addAll(Arrays.asList(validVerbs));
@@ -78,11 +78,11 @@ public class JRouter {
 
     /**
      * Call the appropriate controller method and
-     * 
+     * return the result
      * @param verb
      * @param path
      * @param params
-     * @return return the result
+     * @return result as Html
      */
     public Html route(String verb, String path, Map<String, String> params) {
         try {
